@@ -23,7 +23,7 @@ class Dense_layer(tf.keras.layers.Layer):
         return dot_product
 
 class soft_exponential(tf.keras.layers.Layer):
-    def __init__(self,alpha=-0.01):
+    def __init__(self,alpha=1):
         super(soft_exponential,self).__init__()
         self.alpha_val = tf.keras.backend.cast_to_floatx(alpha)
 
@@ -49,7 +49,7 @@ class Neural_nets:
         self.train_label = tf.cast(train_label, dtype=tf.float32)
         self.test_data = tf.cast(test_data/255, dtype=tf.float32)
         self.test_label = tf.cast(test_label, dtype=tf.float32)
-        self.epochs = 1
+        self.epochs = 20
         self.lr = 0.0005
         self.optimizer = tf.keras.optimizers.Adam(learning_rate=self.lr)
         self.loss = tf.keras.losses.CategoricalCrossentropy()
@@ -106,7 +106,7 @@ class Neural_nets:
                 tt_loss = self.loss(self.test_label,self.model(self.test_data))
                 tt_acc = self.accuracy(self.model(self.test_data),self.test_label)
                 tr_acc = self.accuracy(self.model(self.train_data),self.train_label)
-                print('\r batch = {}/{} ,train_loss = {}, test_loss = {}, train_acc = {}, test_acc = {}'.format((j+1)*self.batch_size,60000,tr_loss,tt_loss,tt_acc,tr_acc),end='')
+                print('\r batch = {}/{} ,train_loss = {}, test_loss = {}, train_acc = {}, test_acc = {}'.format((j+1)*self.batch_size,60000,tr_loss,tt_loss,tr_acc,tt_acc),end='')
                 sys.stdout.flush()
             print()
         print()
